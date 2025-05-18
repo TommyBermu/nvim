@@ -27,9 +27,9 @@ return require('packer').startup(function(use)
 
   use ('ThePrimeagen/vim-be-good')
   
-  use('vim-airline/vim-airline')
+  use ('vim-airline/vim-airline')
 
-  use('vim-airline/vim-airline-themes')
+  use ('vim-airline/vim-airline-themes')
 
   use ('tpope/vim-fugitive')
 end)

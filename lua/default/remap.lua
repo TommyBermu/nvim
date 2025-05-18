@@ -21,4 +21,5 @@ vim.keymap.set("n", "<leader>r", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><
 
 -- para navegar entre buffers
 vim.keymap.set("n", "<Tab>", ":bn<CR>", { noremap = true}) 
+vim.keymap.set("n", "<C-Tab>", ":bp<CR>", { noremap = true}) 
 vim.keymap.set("n", "<Leader>e", ":bd<CR>", { noremap = true}) 
