@@ -79,10 +79,10 @@ _G.packer_plugins = {
     path = "/home/tommy/.local/share/nvim/site/pack/packer/start/LuaSnip",
     url = "https://github.com/L3MON4D3/LuaSnip"
   },
-  ["auto-pairs"] = {
+  ["clangd_extensions.nvim"] = {
     loaded = true,
-    path = "/home/tommy/.local/share/nvim/site/pack/packer/start/auto-pairs",
-    url = "https://github.com/jiangmiao/auto-pairs"
+    path = "/home/tommy/.local/share/nvim/site/pack/packer/start/clangd_extensions.nvim",
+    url = "https://github.com/p00f/clangd_extensions.nvim"
   },
   ["cmp-buffer"] = {
     loaded = true,
@@ -123,6 +123,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/tommy/.local/share/nvim/site/pack/packer/start/mason.nvim",
     url = "https://github.com/williamboman/mason.nvim"
+  },
+  ["nvim-autopairs"] = {
+    loaded = true,
+    path = "/home/tommy/.local/share/nvim/site/pack/packer/start/nvim-autopairs",
+    url = "https://github.com/windwp/nvim-autopairs"
   },
   ["nvim-cmp"] = {
     loaded = true,

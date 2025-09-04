@@ -12,6 +12,7 @@ require("mason-lspconfig").setup({
         "html",             -- HTML
         "cssls",            -- CSS
         "jsonls",           -- JSON
+        "clangd",            -- C/C++
     }
 })
 
@@ -96,7 +97,7 @@ end
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 -- Configurar servidores LSP
-local servers = { 'pyright', 'ts_ls', 'html', 'cssls', 'jsonls' }
+local servers = { 'pyright', 'ts_ls', 'html', 'cssls', 'jsonls', 'clangd' }
 for _, server in pairs(servers) do
     lsp[server].setup {
         on_attach = on_attach,
@@ -123,6 +124,25 @@ lsp.lua_ls.setup {
                 enable = false,
             },
         },
+    },
+}
+
+lsp.clangd.setup {
+    on_attach = on_attach,
+    capabilities = capabilities,
+    cmd = {
+        "clangd",
+        "--background-index",
+        "--clang-tidy",
+        "--header-insertion=iwyu",
+        "--completion-style=detailed",
+        "--function-arg-placeholders",
+        "--fallback-style=llvm",
+    },
+    init_options = {
+        usePlaceholders = true,
+        completeUnimported = true,
+        clangdFileStatus = true,
     },
 }
 

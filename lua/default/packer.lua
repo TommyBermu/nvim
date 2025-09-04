@@ -23,7 +23,7 @@ return require('packer').startup(function(use)
 
     use('christoomey/vim-tmux-navigator')
 
-    use('jiangmiao/auto-pairs')
+    use('windwp/nvim-autopairs')
 
     use('ThePrimeagen/vim-be-good')
 
@@ -43,18 +43,22 @@ return require('packer').startup(function(use)
     use('hrsh7th/cmp-cmdline')              -- Commandline completions
     use('L3MON4D3/LuaSnip')                 -- Snippet engine
     use('saadparwaiz1/cmp_luasnip')         -- Snippet completions
-    
+
+
     -- LSP UI improvements
     use('nvim-tree/nvim-web-devicons')      -- Icons
     use {
         'folke/trouble.nvim',               -- Error lens / diagnostics
         requires = "nvim-tree/nvim-web-devicons",
     }
-    
+
     -- Mason para instalar LSP servers automáticamente
     use {
         "williamboman/mason.nvim",
         "williamboman/mason-lspconfig.nvim",
     }
+
+    -- Herramientas adicionales para C/C++
+    use('p00f/clangd_extensions.nvim')      -- Extensiones para clangd
 
 end)
