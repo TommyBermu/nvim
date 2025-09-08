@@ -7,7 +7,6 @@ Incluye:
 📚 Ajustes para programar a gusto
 🚀 Uso
 
-#USO
 debes tener instalado [Packer](https://github.com/wbthomason/packer.nvim)
 
 Clona este repo en tu máquina y copia los archivos a tu carpeta de configuración de Neovim
