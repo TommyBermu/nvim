@@ -14,6 +14,6 @@ Clona este repo en tu máquina y copia los archivos a tu carpeta de configuraci�
 ve al archivo `./lua/default/packer.lua`
 
 ejecuta el comando `:so` para que el archivo actual sea el "source"
-y ejecuta el ocmando `:PackerSync` para instalar/actualizar los plugins
+y ejecuta el comando `:PackerSync` para instalar/actualizar los plugins
 
 Revisa también mi [configuración de Tmux](https://github.com/TommyBermu/tmux).
