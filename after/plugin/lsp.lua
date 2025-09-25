@@ -1,4 +1,4 @@
-local lsp = require('lspconfig')
+local lsp = require('lspconfig')  -- Compatibilidad
 local cmp = require('cmp')
 local luasnip = require('luasnip')
 
@@ -12,7 +12,8 @@ require("mason-lspconfig").setup({
         "html",             -- HTML
         "cssls",            -- CSS
         "jsonls",           -- JSON
-        "clangd",            -- C/C++
+        "clangd",           -- C/C++
+        "rust_analyzer"     -- Rust 
     }
 })
 
@@ -97,12 +98,24 @@ end
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 -- Configurar servidores LSP
+-- local servers = { 'pyright', 'ts_ls', 'html', 'cssls', 'jsonls', 'clangd' }
+-- for _, server in pairs(servers) do
+--    lsp[server].setup {
+--        on_attach = on_attach,
+--        capabilities = capabilities,
+--    }
+--end
+-- Configurar servidores LSP con verificación
 local servers = { 'pyright', 'ts_ls', 'html', 'cssls', 'jsonls', 'clangd' }
 for _, server in pairs(servers) do
-    lsp[server].setup {
-        on_attach = on_attach,
-        capabilities = capabilities,
-    }
+    if lsp[server] then
+        lsp[server].setup {
+            on_attach = on_attach,
+            capabilities = capabilities,
+        }
+    else
+        print("LSP server not found: " .. server)
+    end
 end
 
 -- Configuración especial para Lua LSP

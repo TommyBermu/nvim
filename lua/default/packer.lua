@@ -43,7 +43,8 @@ return require('packer').startup(function(use)
     use('hrsh7th/cmp-cmdline')              -- Commandline completions
     use('L3MON4D3/LuaSnip')                 -- Snippet engine
     use('saadparwaiz1/cmp_luasnip')         -- Snippet completions
-
+    -- Herramientas para Rust
+    use('simrat39/rust-tools.nvim')
 
     -- LSP UI improvements
     use('nvim-tree/nvim-web-devicons')      -- Icons
