@@ -19,3 +19,13 @@ vim.keymap.set("n", "<leader>r", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><
 vim.keymap.set("n", "<Tab>", ":bn<CR>", { noremap = true}) 
 vim.keymap.set("n", "<C-Tab>", ":bp<CR>", { noremap = true}) 
 vim.keymap.set("n", "<Leader>e", ":bd<CR>", { noremap = true}) 
+
+-- Formatear con LSP
+vim.keymap.set("n", "<Leader>f", function() 
+    vim.lsp.buf.format({ async = true }) 
+end, { noremap = true, desc = "Format code" })
+
+-- Formatear en modo visual (solo la selección)
+vim.keymap.set("v", "<Leader>f", function() 
+    vim.lsp.buf.format({ async = true }) 
+end, { noremap = true, desc = "Format selection" })

@@ -97,14 +97,6 @@ end
 -- Configurar capabilities para autocompletado
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
--- Configurar servidores LSP
--- local servers = { 'pyright', 'ts_ls', 'html', 'cssls', 'jsonls', 'clangd' }
--- for _, server in pairs(servers) do
---    lsp[server].setup {
---        on_attach = on_attach,
---        capabilities = capabilities,
---    }
---end
 -- Configurar servidores LSP con verificación
 local servers = { 'pyright', 'ts_ls', 'html', 'cssls', 'jsonls', 'clangd' }
 for _, server in pairs(servers) do
@@ -174,3 +166,11 @@ for type, icon in pairs(signs) do
     local hl = "DiagnosticSign" .. type
     vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
+
+-- Formatear automáticamente al guardar
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*",
+  callback = function()
+    vim.lsp.buf.format({ async = false })
+  end,
+})

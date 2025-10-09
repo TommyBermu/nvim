@@ -32,7 +32,7 @@ return require('packer').startup(function(use)
     use('vim-airline/vim-airline-themes')
 
     use('tpope/vim-fugitive')
-
+    
     -- LSP Plugins
 
     use('neovim/nvim-lspconfig')            -- Configuraciones para Language Servers

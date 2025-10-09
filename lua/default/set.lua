@@ -14,6 +14,7 @@ vim.opt.termguicolors = true
 vim.opt.list = false
 vim.opt.compatible = false
 vim.opt.tabstop = 4
+vim.opt.softtabstop = 4  
 vim.opt.expandtab = true
 vim.opt.autoindent = true
 vim.opt.smartindent = true
