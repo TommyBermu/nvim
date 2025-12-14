@@ -24,7 +24,7 @@ Instalación rápida de ripgrep (ejemplos):
 - Debian / Ubuntu: `sudo apt install ripgrep`
 - Arch: `sudo pacman -S ripgrep`
 - macOS: `brew install ripgrep`
-- Windows (scoop/choco): `scoop install ripgrep  — o — choco install ripgrep`
+- Windows (scoop/choco): `scoop install ripgrep`  — o — `choco install ripgrep`
 
 ---
 
