@@ -1,10 +1,9 @@
 Mi configuración personal de Neovim ✨
-Incluye:
 
-🎨 Temas y colores que me gustan
-🔧 Plugins para productividad
-⌨️ Atajos que hacen mi vida más fácil
-📚 Ajustes para programar a gusto
+- 🎨 Temas y colores que me gustan
+- 🔧 Plugins para productividad
+- ⌨️ Atajos que hacen mi vida más fácil
+- 📚 Ajustes para programar a gusto
 
 Revisa también mi [configuración de Tmux](https://github.com/TommyBermu/tmux).
 
