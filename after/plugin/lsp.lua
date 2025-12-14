@@ -1,4 +1,3 @@
-local lsp = require('lspconfig')  -- Compatibilidad
 local cmp = require('cmp')
 local luasnip = require('luasnip')
 
@@ -6,14 +5,14 @@ local luasnip = require('luasnip')
 require("mason").setup()
 require("mason-lspconfig").setup({
     ensure_installed = {
-        "lua_ls",           -- Lua
-        "pyright",          -- Python
-        "ts_ls",            -- TypeScript/JavaScript
-        "html",             -- HTML
-        "cssls",            -- CSS
-        "jsonls",           -- JSON
-        "clangd",           -- C/C++
-        "rust_analyzer"     -- Rust 
+        "lua_ls",
+        "pyright",
+        "ts_ls",
+        "html",
+        "cssls",
+        "jsonls",
+        "clangd",
+        "rust_analyzer"
     }
 })
 
@@ -74,9 +73,12 @@ cmp.setup.cmdline(':', {
     })
 })
 
+-- Configurar capabilities para autocompletado
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
 -- Configuración común para LSP
 local on_attach = function(client, bufnr)
-    local bufopts = { noremap=true, silent=true, buffer=bufnr }
+    local bufopts = { noremap = true, silent = true, buffer = bufnr }
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
@@ -94,24 +96,22 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
 end
 
--- Configurar capabilities para autocompletado
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
+-- ========================================
+-- NUEVA API: vim.lsp.config + vim.lsp.enable
+-- ========================================
 
--- Configurar servidores LSP con verificación
-local servers = { 'pyright', 'ts_ls', 'html', 'cssls', 'jsonls', 'clangd' }
-for _, server in pairs(servers) do
-    if lsp[server] then
-        lsp[server].setup {
-            on_attach = on_attach,
-            capabilities = capabilities,
-        }
-    else
-        print("LSP server not found: " .. server)
-    end
+-- Servidores básicos
+local servers = { 'pyright', 'ts_ls', 'html', 'cssls', 'jsonls', 'rust_analyzer' }
+for _, server in ipairs(servers) do
+    vim.lsp.config(server, {
+        on_attach = on_attach,
+        capabilities = capabilities,
+    })
+    vim.lsp.enable(server)
 end
 
 -- Configuración especial para Lua LSP
-lsp.lua_ls.setup {
+vim.lsp.config('lua_ls', {
     on_attach = on_attach,
     capabilities = capabilities,
     settings = {
@@ -120,7 +120,7 @@ lsp.lua_ls.setup {
                 version = 'LuaJIT',
             },
             diagnostics = {
-                globals = {'vim'},
+                globals = { 'vim' },
             },
             workspace = {
                 library = vim.api.nvim_get_runtime_file("", true),
@@ -130,9 +130,11 @@ lsp.lua_ls.setup {
             },
         },
     },
-}
+})
+vim.lsp.enable('lua_ls')
 
-lsp.clangd.setup {
+-- Configuración especial para clangd
+vim.lsp.config('clangd', {
     on_attach = on_attach,
     capabilities = capabilities,
     cmd = {
@@ -149,7 +151,8 @@ lsp.clangd.setup {
         completeUnimported = true,
         clangdFileStatus = true,
     },
-}
+})
+vim.lsp.enable('clangd')
 
 -- Configurar diagnósticos (error lens)
 vim.diagnostic.config({
@@ -169,8 +172,8 @@ end
 
 -- Formatear automáticamente al guardar
 vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = "*",
-  callback = function()
-    vim.lsp.buf.format({ async = false })
-  end,
+    pattern = "*",
+    callback = function()
+        vim.lsp.buf.format({ async = false })
+    end,
 })
