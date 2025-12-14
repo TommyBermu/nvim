@@ -10,7 +10,7 @@ Revisa también mi [configuración de Tmux](https://github.com/TommyBermu/tmux).
 ## Resumen
 - Lenguaje: Lua
 - Gestor de plugins: lazy.nvim
-- Uso pensado para desarrollo general y edición cómoda con Telescope, LSP, Treesitter, etc.
+- Uso pensado para desarrollo de bajo nivel y edición cómoda con Telescope, LSP, Treesitter, etc.
 
 ---
 
@@ -21,22 +21,26 @@ Revisa también mi [configuración de Tmux](https://github.com/TommyBermu/tmux).
 - Opcional pero recomendado: Node.js, Python 3 (para providers y algunos LSPs), clangd / pylsp u otros servidores de lenguaje según tu stack
 
 Instalación rápida de ripgrep (ejemplos):
-- Debian / Ubuntu: sudo apt install ripgrep
-- Arch: sudo pacman -S ripgrep
-- macOS: brew install ripgrep
-- Windows (scoop/choco): scoop install ripgrep  — o — choco install ripgrep
+- Debian / Ubuntu: `sudo apt install ripgrep`
+- Arch: `sudo pacman -S ripgrep`
+- macOS: `brew install ripgrep`
+- Windows (scoop/choco): `scoop install ripgrep  — o — choco install ripgrep`
 
 ---
 
 ## Instalación (rápida)
 1. Haz backup de tu configuración actual (si aplica):
+   ```
    mv ~/.config/nvim ~/.config/nvim.backup
+   ```
 
-2. Clona este repositorio en la ruta de configuración de Neovim:
+3. Clona este repositorio en la ruta de configuración de Neovim:
+   ```
    git clone https://github.com/TommyBermu/nvim.git ~/.config/nvim
+   ```
 
-3. Arranca Neovim:
-   nvim
+4. Arranca Neovim:
+   ```nvim```
 
    lazy.nvim se encargará de instalar los plugins la primera vez (si no está instalado, el bootstrap del init.lua clona lazy automáticamente). Si quieres forzar la instalación/actualización, dentro de Neovim ejecuta:
    :Lazy sync
