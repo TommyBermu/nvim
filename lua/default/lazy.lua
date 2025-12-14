@@ -55,22 +55,26 @@ require("lazy").setup({
     { 'tpope/vim-fugitive' },
 
     -- LSP Plugins
-    { 'neovim/nvim-lspconfig' },              -- Configuraciones para Language Servers
-    { 'hrsh7th/nvim-cmp' },                   -- Autocompletado
-    { 'hrsh7th/cmp-nvim-lsp' },               -- LSP source para nvim-cmp
-    { 'hrsh7th/cmp-buffer' },                 -- Buffer completions
-    { 'hrsh7th/cmp-path' },                   -- Path completions
-    { 'hrsh7th/cmp-cmdline' },                -- Commandline completions
-    { 'L3MON4D3/LuaSnip' },                   -- Snippet engine
-    { 'saadparwaiz1/cmp_luasnip' },           -- Snippet completions
+    { 'neovim/nvim-lspconfig' },    -- Configuraciones para Language Servers
+    { 'hrsh7th/nvim-cmp' },         -- Autocompletado
+    { 'hrsh7th/cmp-nvim-lsp' },     -- LSP source para nvim-cmp
+    { 'hrsh7th/cmp-buffer' },       -- Buffer completions
+    { 'hrsh7th/cmp-path' },         -- Path completions
+    { 'hrsh7th/cmp-cmdline' },      -- Commandline completions
+    { 'L3MON4D3/LuaSnip' },         -- Snippet engine
+    { 'saadparwaiz1/cmp_luasnip' }, -- Snippet completions
 
     -- Herramientas para Rust
-    { 'simrat39/rust-tools.nvim' },
+    {
+        'mrcjkb/rustaceanvim',
+        version = '^5', -- Recomendado para evitar breaking changes
+        lazy = false,   -- Este plugin ya es lazy por defecto
+    },
 
     -- LSP UI improvements
-    { 'nvim-tree/nvim-web-devicons' },        -- Icons
+    { 'nvim-tree/nvim-web-devicons' }, -- Icons
     {
-        'folke/trouble.nvim',                 -- Error lens / diagnostics
+        'folke/trouble.nvim',          -- Error lens / diagnostics
         dependencies = { "nvim-tree/nvim-web-devicons" },
     },
 
@@ -79,5 +83,5 @@ require("lazy").setup({
     { "williamboman/mason-lspconfig.nvim" },
 
     -- Herramientas adicionales para C/C++
-    { 'p00f/clangd_extensions.nvim' },        -- Extensiones para clangd
+    { 'p00f/clangd_extensions.nvim' }, -- Extensiones para clangd
 })

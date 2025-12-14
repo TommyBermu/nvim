@@ -1,15 +1,9 @@
-local rt = require("rust-tools")
-
-rt.setup({
+vim.g.rustaceanvim = {
     server = {
         on_attach = function(_, bufnr)
-            -- Hover actions
-            vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, { buffer = bufnr })
-            -- Code action groups
-            vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
+            local bufopts = { noremap = true, silent = true, buffer = bufnr }
 
             -- Keymaps LSP estándar
-            local bufopts = { noremap=true, silent=true, buffer=bufnr }
             vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
             vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
             vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
@@ -18,6 +12,16 @@ rt.setup({
             vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
             vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
             vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
+
+            -- Hover actions específicos de Rust
+            vim.keymap.set("n", "<C-space>", function()
+                vim.cmd.RustLsp { 'hover', 'actions' }
+            end, bufopts)
+
+            -- Code action groups
+            vim.keymap.set("n", "<Leader>a", function()
+                vim.cmd.RustLsp('codeAction')
+            end, bufopts)
         end,
     },
-})
+}
