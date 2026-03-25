@@ -11,7 +11,8 @@ treesitter.setup({
         "vim",
         "rust",
         "python",
-        "json"
+        "json",
+        "java"
     },
     sync_install = false,
     auto_install = true,

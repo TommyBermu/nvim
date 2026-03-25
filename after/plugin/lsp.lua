@@ -12,7 +12,8 @@ require("mason-lspconfig").setup({
         "cssls",
         "jsonls",
         "clangd",
-        "rust_analyzer"
+        "rust_analyzer",
+        "jdtls"
     }
 })
 
@@ -101,7 +102,7 @@ end
 -- ========================================
 
 -- Servidores básicos
-local servers = { 'pyright', 'ts_ls', 'html', 'cssls', 'jsonls', 'rust_analyzer' }
+local servers = { 'pyright', 'ts_ls', 'html', 'cssls', 'jsonls', 'rust_analyzer', 'jdtls' }
 for _, server in ipairs(servers) do
     vim.lsp.config(server, {
         on_attach = on_attach,
