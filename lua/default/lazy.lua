@@ -82,4 +82,10 @@ require("lazy").setup({
 
     -- Herramientas adicionales para C/C++
     { 'p00f/clangd_extensions.nvim' }, -- Extensiones para clangd
+
+    -- para ver colores hex
+    { 
+        'norcalli/nvim-colorizer.lua',
+        enabled = true,
+    },
 })
