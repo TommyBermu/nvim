@@ -43,4 +43,6 @@ vim.opt.signcolumn = "yes"
 vim.opt.splitright = true -- las divisiones verticales se abren a la derecha
 vim.opt.splitbelow = true -- las divisiones horizontales se abren abajo
 vim.opt.updatetime = 250  -- diagnósticos y CursorHold más ágiles
-vim.opt.timeoutlen = 300  -- secuencias de leader/which-key más fluidas
+vim.opt.timeoutlen = 300  -- espera entre teclas de una secuencia de mapeo
+-- NOTA: el retardo del popup de which-key NO depende de timeoutlen, sino de la
+-- opción `delay` en after/plugin/which-key.lua.

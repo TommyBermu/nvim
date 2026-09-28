@@ -55,6 +55,88 @@ Documento de seguimiento: qué se ha hecho, qué falta y qué más se podría me
 - [x] **15. Redundancia eliminada (hecho).** Se quitó `vim.opt.compatible = false` de
   `set.lua` (no tiene efecto en Neovim).
 
+- [x] **10. which-key.nvim (hecho).** Añadido `folke/which-key.nvim` a `lazy.lua` y
+  configurado en `after/plugin/which-key.lua` con `setup()` + `add()` de etiquetas de
+  grupo para los prefijos de leader (`<leader>f/x/h/g/t/n/p`). El retardo del popup lo
+  controla `timeoutlen = 300` (ya puesto en set.lua).
+
+- [x] **11. Explorador de archivos moderno (hecho).** Añadido `stevearc/oil.nvim`
+  (+ web-devicons) a `lazy.lua`, configurado en `after/plugin/oil.lua`
+  (`default_file_explorer`, muestra ocultos, `q` para cerrar). Atajos: `<leader>pv` abre
+  oil en el directorio del archivo, `-` sube al directorio padre. Reemplaza a netrw.
+
+- [x] **12. gitsigns.nvim (hecho).** Añadido `lewis6991/gitsigns.nvim` a `lazy.lua`,
+  configurado en `after/plugin/gitsigns.lua`. Navegación de hunks (`]c`/`[c`) y acciones
+  bajo `<leader>h*` (stage/reset/preview/blame/diff) + toggle blame `<leader>tb`.
+
+- [x] **13. easymotion → flash.nvim (hecho).** Se quitó `easymotion/vim-easymotion` de
+  `lazy.lua` y se añadió `folke/flash.nvim`, configurado en `after/plugin/flash.lua`
+  (`s` = salto, `S` = Treesitter, `r` = remote en operator-pending). Se eliminó el mapeo
+  viejo `<Leader>s` de easymotion en `remap.lua`.
+
+- Nota de conflicto resuelto: el atajo de "limpiar resaltado" se movió de `<leader>h`
+  a `<leader>nh` porque `<leader>h*` quedó reservado para los hunks de gitsigns.
+
+- [x] **Fix (RESUELTO): error de telescope `ft_to_lang` — causa raíz: nvim-treesitter en
+  rama `main`.** El diagnóstico inicial (culpar al tag de telescope) era incorrecto. La
+  causa real: nvim-treesitter estaba en la rama `main` (reescritura nueva) que ELIMINÓ el
+  módulo `nvim-treesitter.configs` y la función `ft_to_lang`. Telescope 0.1.x llama a
+  `require('nvim-treesitter.parsers').ft_to_lang(ft)` en su previewer, y al no existir,
+  fallaba en cada tecla. Además, `treesitter.lua` usa la API vieja (`configs.setup`) que
+  tampoco existe en `main`.
+  - Fix: se fijó `branch = 'master'` para nvim-treesitter en `lazy.lua` y se cambió de rama
+    en disco (`git fetch/checkout master` + `:TSUpdate`). Telescope quedó en `branch='0.1.x'`.
+  - Confirmado por el usuario: el error rojo ya no aparece.
+
+- [x] **Fix: which-key no cargaba (parte 1) — MISMO origen que treesitter.** El error de
+  treesitter `main` al arrancar cortaba la carga de `after/plugin/` y `which-key.lua`
+  (último por orden alfabético) nunca se registraba. Al arreglar treesitter, which-key
+  vuelve a cargar. `:checkhealth which-key` pasa (solo warnings informativos).
+
+- [x] **Fix: which-key no abría el popup con `<leader>` (parte 2) — `<Space>` mapeado a
+  `<Nop>`.** Yo había añadido `vim.keymap.set({"n","v"}, "<Space>", "<Nop>")` para evitar
+  el movimiento del cursor, pero eso hace que which-key vea `<Space>` como un mapeo
+  TERMINAL en vez de un prefijo, y no dispara el popup. Se eliminó ese mapeo. Con
+  `mapleader = " "` los mapeos `<leader>...` capturan el espacio sin necesidad del <Nop>.
+  - Recordatorio: el popup está desactivado a propósito dentro de oil (`disable.ft`),
+    así que hay que probarlo en un archivo normal, no en el explorador oil.
+
+- [x] **Aclaración de uso (no es un bug): which-key se usa PULSANDO el leader, no
+  MANTENIÉNDOLO.** Si se mantiene la tecla espacio físicamente apretada, el auto-repeat
+  del teclado envía una ráfaga de espacios y which-key los procesa como teclas (por eso
+  "escribe espacios"). Uso correcto: tocar `<leader>` una vez y soltar → el popup aparece
+  y se queda; luego pulsar la letra del grupo (`f`, `h`, ...). Confirmado funcionando.
+
+- [x] **Fix: which-key aparecía solo un frame y luego se movía el cursor.** Dos causas:
+  (1) en which-key v3 el retardo lo controla la opción `delay` del plugin, NO `timeoutlen`
+  — se puso `delay = 150` y `preset = "modern"` en `which-key.lua`; (2) `<Space>` por sí
+  solo mueve el cursor en normal/visual, así que se mapeó a `<Nop>` en `remap.lua`.
+
+- Recordatorio: `vim-easymotion` sigue en disco; se elimina al correr `:Lazy sync`
+  (ya fue quitado de `lazy.lua`).
+
+- [x] **9. Telescope: live_grep + fzf-native + más pickers (hecho).** Se añadió
+  `telescope-fzf-native.nvim` (con `build = 'make'`) como dependencia de telescope en
+  `lazy.lua`, y en `after/plugin/telescope.lua` se configuró la extensión `fzf`
+  (`load_extension` con pcall) y nuevos mapeos:
+  - `<leader>fg` → `live_grep` (buscar texto en todo el proyecto; usa ripgrep)
+  - `<leader>fb` → `buffers`
+  - `<leader>fh` → `help_tags`
+  - `<leader>fw` → `grep_string` (palabra bajo el cursor)
+  - `<leader>fs` → grep con prompt manual (lo que ya existía)
+  - `<leader>ff` (find_files) y `<C-p>` (git_files) se conservan.
+  Requisitos: ripgrep (verificado: `rg 15.2.0` en /usr/bin) y `make`+compilador C para
+  compilar fzf-native. Requiere `:Lazy sync` para instalar/compilar.
+
+- [x] **Fix: popup de which-key apareciendo dentro del explorador oil.** Lo que se veía
+  como "+Changes/+Visual" era en realidad el popup de which-key listando los keymaps del
+  BUFFER de oil (oil + flash), no un problema de `c`/`v` en archivos normales. Solución
+  (API v3 correcta): `disable = { ft = { "oil" } }` en `which-key.lua`. Se descartó el
+  intento previo con `plugins.presets.operators/motions` porque en which-key v3 esas
+  opciones están DEPRECADAS (ver `opts.defer`) y no tenían efecto. No requiere `:Lazy sync`.
+  - Además: se quitó el mapeo global de `-` → Oil en `oil.lua`, porque dentro de oil `-`
+    ya significa "subir de directorio" y colisionaba. `<leader>pv` sigue abriendo oil.
+
 ---
 
 ## 🔧 Por arreglar (conflictos o bugs reales)
@@ -71,30 +153,7 @@ _Todos los puntos de esta sección están resueltos (5, 6, 7, 8 y 15 — ver "He
 
 ## 🔌 Quality of life — plugins nuevos recomendados
 
-- [ ] **9. Telescope: live_grep + fzf-native + más pickers.**
-  Falta buscar texto en todo el proyecto (`live_grep`), que es de lo más usado.
-  ```lua
-  vim.keymap.set('n', '<leader>fg', builtin.live_grep,  { desc = 'Grep en proyecto' })
-  vim.keymap.set('n', '<leader>fb', builtin.buffers,    { desc = 'Buscar buffers' })
-  vim.keymap.set('n', '<leader>fh', builtin.help_tags,  { desc = 'Buscar ayuda' })
-  ```
-  Añadir `nvim-telescope/telescope-fzf-native.nvim` (build con make) acelera mucho el filtrado.
-
-- [ ] **10. which-key.nvim** *(el mayor salto de comodidad)*.
-  Al presionar `<leader>` y esperar, muestra un menú con los atajos disponibles.
-  Muy útil dada la cantidad de leader-mappings que tienes.
-
-- [ ] **11. Explorador de archivos moderno.** Hoy usas netrw (`<leader>pv` → `:Ex`).
-  Alternativas más cómodas: `oil.nvim` (editas el filesystem como un buffer, minimalista)
-  o `nvim-tree`/`neo-tree` (árbol lateral clásico).
-
-- [ ] **12. gitsigns.nvim.** Muestra en la columna izquierda las líneas
-  añadidas/cambiadas/borradas, permite navegar entre hunks y hacer stage.
-  Complementa muy bien a fugitive.
-
-- [ ] **13. easymotion → flash.nvim (o leap.nvim).** easymotion es vimscript antiguo;
-  flash.nvim es el equivalente moderno en Lua, más rápido e integrado con Treesitter.
-  (Opcional, solo si quieres modernizar.)
+_9, 10, 11, 12 y 13 resueltos — ver "Hecho"._
 
 ---
 

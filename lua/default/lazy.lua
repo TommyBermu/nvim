@@ -15,26 +15,40 @@ vim.opt.rtp:prepend(lazypath)
 -- Plugins
 require("lazy").setup({
     -- Telescope
+    -- Se usa la rama 0.1.x (en vez de un tag fijo) para recibir los fixes de
+    -- compatibilidad con Neovim reciente. El tag 0.1.8 aún llamaba a
+    -- vim.treesitter.language.ft_to_lang, eliminada en Nvim nuevo, lo que causaba
+    -- el error "attempt to call field 'ft_to_lang' (a nil value)" en el previewer.
     {
         'nvim-telescope/telescope.nvim',
-        tag = '0.1.8',
-        dependencies = { 'nvim-lua/plenary.nvim' }
+        branch = '0.1.x',
+        dependencies = {
+            'nvim-lua/plenary.nvim',
+            -- fzf nativo (compilado en C) para un filtrado mucho más rápido.
+            -- Requiere `make`; lazy lo compila con el campo `build`.
+            { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+        }
     },
 
     -- Colorscheme
     { "ellisonleao/gruvbox.nvim" },
 
     -- Treesitter
+    -- Se fija la rama `master` (clásica/estable). La rama `main` es una reescritura
+    -- que eliminó la API vieja (`nvim-treesitter.configs`, `ft_to_lang`, etc.) y rompe
+    -- la compatibilidad con telescope 0.1.x y con la config de treesitter.lua.
+    -- master mantiene `require('nvim-treesitter.configs').setup{...}` y `ft_to_lang`.
     {
         'nvim-treesitter/nvim-treesitter',
+        branch = 'master',
         build = ':TSUpdate'
     },
 
     -- Undotree
     { 'mbbill/undotree' },
 
-    -- Easymotion
-    { 'easymotion/vim-easymotion' },
+    -- Flash (saltos rápidos por pantalla; reemplaza a easymotion)
+    { 'folke/flash.nvim' },
 
     -- Tmux navigator
     { 'christoomey/vim-tmux-navigator' },
@@ -93,4 +107,16 @@ require("lazy").setup({
 
     -- Formatter (conform.nvim)
     { 'stevearc/conform.nvim' },
+
+    -- which-key: muestra un menú con los atajos disponibles al pulsar <leader>
+    { 'folke/which-key.nvim' },
+
+    -- Explorador de archivos: editas el filesystem como si fuera un buffer
+    {
+        'stevearc/oil.nvim',
+        dependencies = { 'nvim-tree/nvim-web-devicons' },
+    },
+
+    -- Git signs: marca líneas cambiadas en la columna de signos + navegación de hunks
+    { 'lewis6991/gitsigns.nvim' },
 })
