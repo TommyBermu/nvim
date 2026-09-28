@@ -16,9 +16,11 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 vim.keymap.set("n", "<leader>r", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 
 -- para navegar entre buffers
-vim.keymap.set("n", "<Tab>", ":bn<CR>", { noremap = true}) 
-vim.keymap.set("n", "<C-Tab>", ":bp<CR>", { noremap = true}) 
-vim.keymap.set("n", "<Leader>e", ":bd<CR>", { noremap = true}) 
+-- <Tab> = siguiente, <S-Tab> = anterior (la mayoría de terminales no distinguen
+-- <C-Tab> de <Tab>, por eso se usa <S-Tab> para "buffer anterior").
+vim.keymap.set("n", "<Tab>", ":bn<CR>", { noremap = true, silent = true, desc = "Buffer siguiente" })
+vim.keymap.set("n", "<S-Tab>", ":bp<CR>", { noremap = true, silent = true, desc = "Buffer anterior" })
+vim.keymap.set("n", "<Leader>e", ":bd<CR>", { noremap = true, silent = true, desc = "Cerrar buffer" })
 
 -- NOTA: el atajo de formateo (<Leader>f == <space>f) se define de forma centralizada
 -- en after/plugin/conform.lua para normal y visual. No lo dupliques aquí.

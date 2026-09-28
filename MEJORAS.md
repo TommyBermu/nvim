@@ -25,20 +25,26 @@ Documento de seguimiento: qué se ha hecho, qué falta y qué más se podría me
   En `rust.lua` el atajo por-buffer se reapuntó a conform con fallback al LSP, para
   comportamiento consistente en archivos Rust.
 
+- [x] **3. Navegación de buffers arreglada (resuelto).** En `remap.lua` se cambió
+  `<C-Tab>` (que las terminales no distinguen de `<Tab>`) por `<S-Tab>` para "buffer
+  anterior". Se añadió `silent = true` y `desc` a los mapeos de buffer (`<Tab>`,
+  `<S-Tab>`, `<Leader>e`).
+
+- [x] **14. Doble instancia de clangd eliminada (resuelto).** `after/plugin/clangd.lua`
+  se reescribió para la API moderna de `clangd_extensions.nvim` (Nvim 0.10+): se quitó
+  el bloque `server = {...}` (era el que arrancaba una 2ª instancia de clangd) y la clave
+  `extensions` (API vieja). Ahora clangd se arranca SOLO desde `lsp.lua`
+  (`vim.lsp.config` + `vim.lsp.enable`), y el plugin solo aporta los extras (AST, memory
+  usage, etc.). Los inlay hints pasaron a la API nativa `vim.lsp.inlay_hint`, activados
+  por buffer vía un autocmd `LspAttach` cuando el cliente es clangd.
+  - Verificar de tu lado: abrir un archivo C/C++ y correr `:LspInfo` / `:checkhealth lsp`
+    para confirmar que hay un solo cliente clangd adjunto.
+
 ---
 
 ## 🔧 Por arreglar (conflictos o bugs reales)
 
-Ordenado por prioridad.
-
-- [ ] **3. `<C-Tab>` probablemente no funciona.** La mayoría de terminales no distinguen
-  `<C-Tab>` de `<Tab>`, así que el mapeo a `:bp` suele quedar inerte.
-  **Acción sugerida:** usar `<S-Tab>` o un `<leader>` + tecla para "buffer anterior".
-
-- [ ] **14. Posible doble instancia de clangd.** clangd se configura en `clangd.lua`
-  (`clangd_extensions.setup`) y también en `lsp.lua` (`vim.lsp.config('clangd', ...)`).
-  **Acción sugerida:** verificar que no se arranquen dos clientes clangd sobre el mismo buffer
-  (`:LspInfo` con un archivo C/C++ abierto).
+_No quedan puntos pendientes en esta sección. (1, 2, 3 y 14 resueltos — ver "Hecho".)_
 
 ---
 
