@@ -17,6 +17,15 @@ require("mason-lspconfig").setup({
     }
 })
 
+-- Instalar formatters/linters automáticamente vía Mason
+require("mason-tool-installer").setup({
+    ensure_installed = {
+        "black", -- formatter de Python
+        "isort", -- ordena imports de Python
+    },
+    run_on_start = true,
+})
+
 -- Configuración de autocompletado
 cmp.setup({
     snippet = {
@@ -94,7 +103,8 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
     vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-    vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
+    -- NOTA: el keymap de formateo <space>f se define de forma centralizada en
+    -- after/plugin/conform.lua (conform con fallback al LSP). No lo dupliques aquí.
 end
 
 -- ========================================
@@ -171,10 +181,7 @@ for type, icon in pairs(signs) do
     vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
 
--- Formatear automáticamente al guardar
-vim.api.nvim_create_autocmd("BufWritePre", {
-    pattern = "*",
-    callback = function()
-        vim.lsp.buf.format({ async = false })
-    end,
-})
+-- El formateo automático al guardar lo gestiona conform.nvim de forma centralizada
+-- (ver after/plugin/conform.lua, opción `format_on_save` con `lsp_format = "fallback"`).
+-- Antes había aquí un autocmd BufWritePre que llamaba a vim.lsp.buf.format, pero
+-- provocaba doble formateo y podía chocar con conform, así que se eliminó.

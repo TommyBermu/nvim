@@ -79,13 +79,18 @@ require("lazy").setup({
     -- Mason para instalar LSP servers automáticamente
     { "williamboman/mason.nvim" },
     { "williamboman/mason-lspconfig.nvim" },
+    -- Instala herramientas (formatters, linters) automáticamente vía Mason
+    { "WhoIsSethDaniel/mason-tool-installer.nvim" },
 
     -- Herramientas adicionales para C/C++
     { 'p00f/clangd_extensions.nvim' }, -- Extensiones para clangd
 
     -- para ver colores hex
-    { 
-        'norcalli/nvim-colorizer.lua',
+    {
+        'catgoose/nvim-colorizer.lua',
         enabled = true,
     },
+
+    -- Formatter (conform.nvim)
+    { 'stevearc/conform.nvim' },
 })

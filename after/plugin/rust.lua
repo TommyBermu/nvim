@@ -11,7 +11,15 @@ vim.g.rustaceanvim = {
             vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
             vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
             vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-            vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
+            -- Formateo unificado vía conform (con fallback al LSP de rustaceanvim).
+            vim.keymap.set('n', '<space>f', function()
+                local ok, conform = pcall(require, 'conform')
+                if ok then
+                    conform.format({ async = true, lsp_format = 'fallback' })
+                else
+                    vim.lsp.buf.format { async = true }
+                end
+            end, bufopts)
 
             -- Hover actions específicos de Rust
             vim.keymap.set("n", "<C-space>", function()

@@ -20,12 +20,5 @@ vim.keymap.set("n", "<Tab>", ":bn<CR>", { noremap = true})
 vim.keymap.set("n", "<C-Tab>", ":bp<CR>", { noremap = true}) 
 vim.keymap.set("n", "<Leader>e", ":bd<CR>", { noremap = true}) 
 
--- Formatear con LSP
-vim.keymap.set("n", "<Leader>f", function() 
-    vim.lsp.buf.format({ async = true }) 
-end, { noremap = true, desc = "Format code" })
-
--- Formatear en modo visual (solo la selección)
-vim.keymap.set("v", "<Leader>f", function() 
-    vim.lsp.buf.format({ async = true }) 
-end, { noremap = true, desc = "Format selection" })
+-- NOTA: el atajo de formateo (<Leader>f == <space>f) se define de forma centralizada
+-- en after/plugin/conform.lua para normal y visual. No lo dupliques aquí.
