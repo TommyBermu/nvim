@@ -11,7 +11,6 @@ vim.opt.wrap = false
 vim.opt.clipboard = "unnamedplus"
 vim.opt.termguicolors = true
 vim.opt.list = false
-vim.opt.compatible = false
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
@@ -27,3 +26,21 @@ vim.api.nvim_create_autocmd("FileType", {
         vim.opt_local.expandtab = true
     end,
 })
+
+-- BÚSQUEDA (más amigable)
+vim.opt.ignorecase = true -- ignora mayúsculas/minúsculas al buscar...
+vim.opt.smartcase = true  -- ...salvo que escribas alguna mayúscula
+vim.opt.incsearch = true  -- resalta coincidencias mientras escribes
+vim.opt.hlsearch = true   -- mantiene resaltadas las coincidencias
+
+-- UNDO PERSISTENTE (el historial sobrevive al cerrar el archivo; va con undotree)
+vim.opt.undofile = true
+
+-- COLUMNA DE SIGNOS ESTABLE (evita que el texto "salte" al aparecer diagnósticos/git)
+vim.opt.signcolumn = "yes"
+
+-- VENTANAS Y TIEMPOS
+vim.opt.splitright = true -- las divisiones verticales se abren a la derecha
+vim.opt.splitbelow = true -- las divisiones horizontales se abren abajo
+vim.opt.updatetime = 250  -- diagnósticos y CursorHold más ágiles
+vim.opt.timeoutlen = 300  -- secuencias de leader/which-key más fluidas

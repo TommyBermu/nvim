@@ -40,6 +40,21 @@ Documento de seguimiento: qué se ha hecho, qué falta y qué más se podría me
   - Verificar de tu lado: abrir un archivo C/C++ y correr `:LspInfo` / `:checkhealth lsp`
     para confirmar que hay un solo cliente clangd adjunto.
 
+- [x] **5. Búsqueda más amigable (hecho).** En `set.lua`: `ignorecase`, `smartcase`,
+  `incsearch`, `hlsearch`. Atajo `<leader>h` → `:nohlsearch<CR>` añadido en `remap.lua`
+  para limpiar el resaltado.
+
+- [x] **6. Undo persistente (hecho).** `vim.opt.undofile = true` en `set.lua`
+  (el historial de deshacer sobrevive al cerrar el archivo; complementa undotree).
+
+- [x] **7. Columna de signos estable (hecho).** `vim.opt.signcolumn = "yes"` en `set.lua`.
+
+- [x] **8. Ventanas y tiempos (hecho).** `splitright`, `splitbelow`, `updatetime = 250`,
+  `timeoutlen = 300` en `set.lua`.
+
+- [x] **15. Redundancia eliminada (hecho).** Se quitó `vim.opt.compatible = false` de
+  `set.lua` (no tiene efecto en Neovim).
+
 ---
 
 ## 🔧 Por arreglar (conflictos o bugs reales)
@@ -50,37 +65,7 @@ _No quedan puntos pendientes en esta sección. (1, 2, 3 y 14 resueltos — ver "
 
 ## ✨ Quality of life — opciones (sin plugins nuevos)
 
-Todo esto va en `lua/default/set.lua`. Cambios pequeños, alto impacto.
-
-- [ ] **5. Búsqueda más amigable**
-  ```lua
-  vim.opt.ignorecase = true
-  vim.opt.smartcase = true   -- ignora mayúsculas salvo que escribas alguna
-  vim.opt.incsearch = true
-  vim.opt.hlsearch = true
-  ```
-  Más un atajo para limpiar el resaltado, p. ej. `<leader>h` → `:nohlsearch<CR>`.
-
-- [ ] **6. Undo persistente** (ya tienes undotree instalado)
-  ```lua
-  vim.opt.undofile = true
-  ```
-
-- [ ] **7. Columna de signos estable** (evita que el texto "salte")
-  ```lua
-  vim.opt.signcolumn = "yes"
-  ```
-
-- [ ] **8. Ventanas y tiempos más cómodos**
-  ```lua
-  vim.opt.splitright = true
-  vim.opt.splitbelow = true
-  vim.opt.updatetime = 250
-  vim.opt.timeoutlen = 300
-  ```
-
-- [ ] **15. Quitar redundancia:** `vim.opt.compatible = false` no hace nada en Neovim
-  (nocompatible siempre está activo). Se puede borrar.
+_Todos los puntos de esta sección están resueltos (5, 6, 7, 8 y 15 — ver "Hecho")._
 
 ---
 

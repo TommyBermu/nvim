@@ -15,6 +15,9 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 -- edita todas los textos que sean como en el que esta
 vim.keymap.set("n", "<leader>r", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 
+-- limpiar el resaltado de la última búsqueda
+vim.keymap.set("n", "<leader>h", ":nohlsearch<CR>", { noremap = true, silent = true, desc = "Limpiar resaltado" })
+
 -- para navegar entre buffers
 -- <Tab> = siguiente, <S-Tab> = anterior (la mayoría de terminales no distinguen
 -- <C-Tab> de <Tab>, por eso se usa <S-Tab> para "buffer anterior").
