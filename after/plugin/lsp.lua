@@ -26,8 +26,25 @@ require("mason-tool-installer").setup({
     run_on_start = true,
 })
 
+-- lspkind: iconos por tipo de símbolo en el menú de autocompletado (opcional).
+local has_lspkind, lspkind = pcall(require, 'lspkind')
+
 -- Configuración de autocompletado
 cmp.setup({
+    -- Iconos + etiqueta de origen en el menú de completado (si lspkind está disponible).
+    formatting = has_lspkind and {
+        format = lspkind.cmp_format({
+            mode = 'symbol_text', -- muestra icono + texto del tipo
+            maxwidth = 50,
+            ellipsis_char = '…',
+            menu = {
+                nvim_lsp = '[LSP]',
+                luasnip = '[Snip]',
+                buffer = '[Buf]',
+                path = '[Path]',
+            },
+        }),
+    } or nil,
     snippet = {
         expand = function(args)
             luasnip.lsp_expand(args.body)

@@ -46,3 +46,18 @@ vim.opt.updatetime = 250  -- diagnósticos y CursorHold más ágiles
 vim.opt.timeoutlen = 300  -- espera entre teclas de una secuencia de mapeo
 -- NOTA: el retardo del popup de which-key NO depende de timeoutlen, sino de la
 -- opción `delay` en after/plugin/which-key.lua.
+
+-- YANK HIGHLIGHT: resalta brevemente el texto recién copiado (feedback visual).
+-- No usa plugin; viene con Neovim. Duración ~150ms.
+-- En Neovim 0.12 la API es `vim.hl.on_yank`; en versiones previas era
+-- `vim.highlight.on_yank` (ya deprecada). Se usa la nueva con fallback.
+vim.api.nvim_create_autocmd("TextYankPost", {
+    callback = function()
+        local hl = vim.hl or vim.highlight
+        hl.on_yank({ higroup = "IncSearch", timeout = 150 })
+    end,
+})
+
+-- GUÍAS VISUALES
+vim.opt.colorcolumn = "80" -- línea vertical marcando la columna 80 (límite de ancho)
+vim.opt.cursorline = true  -- resalta la línea donde está el cursor

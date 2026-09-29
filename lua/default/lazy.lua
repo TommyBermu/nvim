@@ -117,4 +117,16 @@ require("lazy").setup({
 
     -- Git signs: marca líneas cambiadas en la columna de signos + navegación de hunks
     { 'lewis6991/gitsigns.nvim' },
+
+    -- Guías de indentación (líneas verticales por nivel de indentado)
+    { 'lukas-reineke/indent-blankline.nvim', main = 'ibl' },
+
+    -- Resalta y permite navegar comentarios TODO / FIXME / HACK / etc.
+    {
+        'folke/todo-comments.nvim',
+        dependencies = { 'nvim-lua/plenary.nvim' },
+    },
+
+    -- Iconos por tipo de símbolo en el menú de autocompletado (nvim-cmp)
+    { 'onsails/lspkind.nvim' },
 })
