@@ -157,6 +157,41 @@ _9, 10, 11, 12 y 13 resueltos — ver "Hecho"._
 
 ---
 
+## 🧹 Auditoría / limpieza (archivo por archivo)
+
+Correcciones seguras aplicadas:
+- [x] Comentario de telescope en `lazy.lua` corregido (la causa de `ft_to_lang` era
+  treesitter `main`, no telescope).
+- [x] `nvim-web-devicons` ya no se declara suelto en `lazy.lua` (viene como dependencia
+  de trouble y oil; lazy lo deduplica).
+- [x] `enabled = true` redundante quitado de la entrada de nvim-colorizer.
+
+Decisiones del usuario (aplicadas):
+- [x] **`colors.lua` consolidado como ÚNICO lugar del colorscheme.**
+  Se quitó `colorscheme gruvbox` de `default/init.lua`. `colors.lua` aplica gruvbox.
+  Decisión del usuario: fondo SÓLIDO (se probó transparente pero se veía mal en airline,
+  así que se quitó la transparencia).
+- [x] **`colorizer.setup()` movido a su propio `after/plugin/colorizer.lua`** (antes estaba
+  suelto en `default/init.lua`).
+- [x] **Tema de airline unificado a `gruvbox`** (antes onedark). Reversible cambiando una
+  línea en `airline.lua` si no gusta.
+- [x] **`vim-be-good` y `vim-tmux-navigator` se MANTIENEN** (el usuario los usa).
+
+Detalles técnicos de diagnósticos (aplicados):
+- [x] **`virtual_text` con formato** en `lsp.lua`: `{ spacing = 2, prefix = "●" }` para que
+  en líneas largas el mensaje no se pegue al código.
+- [x] **`severity_sort = true`** en `lsp.lua`: en una línea con varios diagnósticos, muestra
+  primero los errores, luego warnings/hints/info.
+
+Revisado y OK (no requiere cambios):
+- Duplicación de keymaps LSP en `rust.lua`: es necesaria (rustaceanvim usa su propio
+  `on_attach`, separado del de `lsp.lua`).
+- `<C-space>` (rust hover) vs `<C-Space>` (cmp complete): conviven porque actúan en
+  modos distintos (normal vs insert).
+- Todos los archivos de `after/plugin/` nuevos tienen `pcall` de protección.
+
+---
+
 ## 💡 Ideas extra para más adelante
 
 Ninguna es urgente; son mejoras que suelen valer la pena en configs de uso diario.

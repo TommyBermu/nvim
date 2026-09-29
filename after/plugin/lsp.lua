@@ -167,11 +167,17 @@ vim.lsp.enable('clangd')
 
 -- Configurar diagnósticos (error lens)
 vim.diagnostic.config({
-    virtual_text = true,
+    -- virtual_text con formato: un prefijo con viñeta y algo de separación para que
+    -- en líneas largas no se pegue al código y sea más legible.
+    virtual_text = {
+        spacing = 2,
+        prefix = "●",
+    },
     signs = true,
     underline = true,
     update_in_insert = false,
-    severity_sort = false,
+    -- Ordena por severidad: muestra primero los errores, luego warnings, etc.
+    severity_sort = true,
 })
 
 -- Símbolos para diagnósticos

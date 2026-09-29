@@ -15,10 +15,9 @@ vim.opt.rtp:prepend(lazypath)
 -- Plugins
 require("lazy").setup({
     -- Telescope
-    -- Se usa la rama 0.1.x (en vez de un tag fijo) para recibir los fixes de
-    -- compatibilidad con Neovim reciente. El tag 0.1.8 aún llamaba a
-    -- vim.treesitter.language.ft_to_lang, eliminada en Nvim nuevo, lo que causaba
-    -- el error "attempt to call field 'ft_to_lang' (a nil value)" en el previewer.
+    -- Se usa la rama 0.1.x (rama estable) en vez de un tag fijo, para recibir fixes.
+    -- Nota: el error histórico "ft_to_lang (a nil value)" NO era de telescope sino de
+    -- tener nvim-treesitter en la rama `main` (ver el bloque de Treesitter más abajo).
     {
         'nvim-telescope/telescope.nvim',
         branch = '0.1.x',
@@ -84,7 +83,8 @@ require("lazy").setup({
     },
 
     -- LSP UI improvements
-    { 'nvim-tree/nvim-web-devicons' }, -- Icons
+    -- nvim-web-devicons (iconos) se instala como dependencia de trouble y oil,
+    -- así que no hace falta declararlo suelto.
     {
         'folke/trouble.nvim',          -- Error lens / diagnostics
         dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -100,10 +100,7 @@ require("lazy").setup({
     { 'p00f/clangd_extensions.nvim' }, -- Extensiones para clangd
 
     -- para ver colores hex
-    {
-        'catgoose/nvim-colorizer.lua',
-        enabled = true,
-    },
+    { 'catgoose/nvim-colorizer.lua' },
 
     -- Formatter (conform.nvim)
     { 'stevearc/conform.nvim' },
