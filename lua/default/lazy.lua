@@ -15,12 +15,12 @@ vim.opt.rtp:prepend(lazypath)
 -- Plugins
 require("lazy").setup({
     -- Telescope
-    -- Se usa la rama 0.1.x (rama estable) en vez de un tag fijo, para recibir fixes.
-    -- Nota: el error histórico "ft_to_lang (a nil value)" NO era de telescope sino de
-    -- tener nvim-treesitter en la rama `main` (ver el bloque de Treesitter más abajo).
+    -- Rama `master` (no el tag 0.1.x): la 0.1.x usaba la API vieja de treesitter
+    -- (`ft_to_lang`), que no existe en Neovim 0.12 + nvim-treesitter `main`. La rama
+    -- master de telescope ya migró a `vim.treesitter.language.get_lang` + `.start()`.
     {
         'nvim-telescope/telescope.nvim',
-        branch = '0.1.x',
+        branch = 'master',
         dependencies = {
             'nvim-lua/plenary.nvim',
             -- fzf nativo (compilado en C) para un filtrado mucho más rápido.
@@ -33,13 +33,14 @@ require("lazy").setup({
     { "ellisonleao/gruvbox.nvim" },
 
     -- Treesitter
-    -- Se fija la rama `master` (clásica/estable). La rama `main` es una reescritura
-    -- que eliminó la API vieja (`nvim-treesitter.configs`, `ft_to_lang`, etc.) y rompe
-    -- la compatibilidad con telescope 0.1.x y con la config de treesitter.lua.
-    -- master mantiene `require('nvim-treesitter.configs').setup{...}` y `ft_to_lang`.
+    -- Rama `main`: OBLIGATORIA para Neovim 0.12 (la rama `master` clásica produce el
+    -- error "attempt to call method 'range' (a nil value)" en 0.12). `main` es la
+    -- reescritura con la API nueva; se configura en after/plugin/treesitter.lua de
+    -- forma distinta (sin `nvim-treesitter.configs`).
     {
         'nvim-treesitter/nvim-treesitter',
-        branch = 'master',
+        branch = 'main',
+        lazy = false, -- la rama main NO soporta lazy-loading
         build = ':TSUpdate'
     },
 

@@ -77,16 +77,29 @@ Documento de seguimiento: qué se ha hecho, qué falta y qué más se podría me
 - Nota de conflicto resuelto: el atajo de "limpiar resaltado" se movió de `<leader>h`
   a `<leader>nh` porque `<leader>h*` quedó reservado para los hunks de gitsigns.
 
-- [x] **Fix (RESUELTO): error de telescope `ft_to_lang` — causa raíz: nvim-treesitter en
-  rama `main`.** El diagnóstico inicial (culpar al tag de telescope) era incorrecto. La
-  causa real: nvim-treesitter estaba en la rama `main` (reescritura nueva) que ELIMINÓ el
-  módulo `nvim-treesitter.configs` y la función `ft_to_lang`. Telescope 0.1.x llama a
-  `require('nvim-treesitter.parsers').ft_to_lang(ft)` en su previewer, y al no existir,
-  fallaba en cada tecla. Además, `treesitter.lua` usa la API vieja (`configs.setup`) que
-  tampoco existe en `main`.
-  - Fix: se fijó `branch = 'master'` para nvim-treesitter en `lazy.lua` y se cambió de rama
-    en disco (`git fetch/checkout master` + `:TSUpdate`). Telescope quedó en `branch='0.1.x'`.
-  - Confirmado por el usuario: el error rojo ya no aparece.
+- [x] **Fix (REVISADO): compatibilidad de treesitter con Neovim 0.12.** Historia:
+  1) primero el error `ft_to_lang` se atribuyó a treesitter estando en `main` y se pasó a
+     `master`; eso quitó ese error PERO
+  2) apareció `attempt to call method 'range' (a nil value)` en el core de Neovim
+     (`languagetree.lua`), porque la versión instalada es **Neovim v0.12.5** y la rama
+     `master` de nvim-treesitter NO es compatible con 0.12 (solo hasta 0.11).
+  Solución definitiva para Neovim 0.12:
+  - nvim-treesitter → `branch = 'main'` + `lazy = false` (la rama main es OBLIGATORIA en
+    0.12; es una reescritura, no soporta lazy-loading).
+  - telescope → `branch = 'master'` (NO 0.1.x): master ya usa la API nueva
+    `vim.treesitter.language.get_lang` + `vim.treesitter.start`, sin `ft_to_lang`.
+  - `after/plugin/treesitter.lua` reescrito para la API de `main`:
+    `require('nvim-treesitter').install{...}` + `vim.treesitter.start()` por FileType
+    (la API vieja `configs.setup/ensure_installed/highlight` ya no existe).
+  - PENDIENTE del usuario (lazy no cambia de rama solo):
+    ```
+    cd ~/.local/share/nvim/lazy/telescope.nvim
+    git fetch origin master && git checkout master && git pull --ff-only origin master
+    cd ~/.local/share/nvim/lazy/nvim-treesitter
+    git fetch origin main && git checkout main && git pull --ff-only origin main
+    ```
+    luego `:TSUpdate` y reiniciar. Requiere `tree-sitter-cli` 0.26.1+ del gestor de
+    paquetes (Arch: `sudo pacman -S tree-sitter-cli`), NO de npm.
 
 - [x] **Fix: which-key no cargaba (parte 1) — MISMO origen que treesitter.** El error de
   treesitter `main` al arrancar cortaba la carga de `after/plugin/` y `which-key.lua`
