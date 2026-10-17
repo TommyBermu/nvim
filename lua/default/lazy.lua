@@ -79,15 +79,14 @@ require("lazy").setup({
     -- Herramientas para Rust
     {
         'mrcjkb/rustaceanvim',
-        version = '^5', -- Recomendado para evitar breaking changes
-        lazy = false,   -- Este plugin ya es lazy por defecto
+        lazy = false, -- Este plugin ya es lazy por defecto
     },
 
     -- LSP UI improvements
     -- nvim-web-devicons (iconos) se instala como dependencia de trouble y oil,
     -- así que no hace falta declararlo suelto.
     {
-        'folke/trouble.nvim',          -- Error lens / diagnostics
+        'folke/trouble.nvim', -- Error lens / diagnostics
         dependencies = { "nvim-tree/nvim-web-devicons" },
     },
 
